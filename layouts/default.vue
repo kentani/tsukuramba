@@ -36,6 +36,7 @@
       height="56"
       color="brown1"
       elevation="0"
+      class="pa-0"
     >
       <v-bottom-navigation fixed grow>
         <v-btn>
