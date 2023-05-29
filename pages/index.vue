@@ -174,7 +174,7 @@ export default {
     currentMonth: '',
     currentWeek: [],
     currentMenus: [],
-    dialog: true,
+    dialog: false,
     menuList: [
       { name: 'メニュー1', tags: ['和食', 'ごはん'] },
       { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
@@ -199,7 +199,7 @@ export default {
   methods: {
     onClickDate(index) {
       this.currentMenus = this.currentWeek[index].menus;
-      this.dialog = false;
+      this.dialog = true;
     },
   }
 }
