@@ -37,7 +37,7 @@
       color="brown1"
       elevation="0"
     >
-      <v-bottom-navigation fixed>
+      <v-bottom-navigation fixed grow>
         <v-btn>
           <span>表示切替</span>
           <v-icon class="mb-2">mdi-swap-horizontal</v-icon>

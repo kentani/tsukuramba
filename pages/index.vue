@@ -35,30 +35,30 @@
             align="center"
             style="height: 100%"
           >
-            <v-col cols="1">
-              <v-card-title class="justify-center pa-0 text-h5 brown--text">
-                {{ date.date }}
+            <v-col cols="3">
+              <v-card-title class="pa-0 text-h5 brown--text">
+                <div>{{ date.date }}</div>
+                <div class="pl-2 font-weight-bold">{{ date.day }}</div>
               </v-card-title>
             </v-col>
 
-            <v-col cols="1">
-              <v-card-title class="justify-center pa-0 text-h5 font-weight-bold brown--text">
+            <!-- <v-col cols="1">
+              <v-card-title class="pa-0 text-h5 font-weight-bold brown--text">
                 {{ date.day }}
               </v-card-title>
-            </v-col>
+            </v-col> -->
 
-            <v-col cols="10" style="height: 90%">
+            <v-col cols="9" style="height: 90%">
               <v-card
                 flat
                 rounded="lg"
-                class="ml-2"
                 style="height: 100%;"
                 color="brown1"
               >
               <!-- <v-card outlined rounded="xl" class="ml-2" style="height: 100%;"> -->
                 <v-row no-gutters align="center" style="height: 100%; overflow-y: scroll;">
                   <v-col>
-                    <v-card-text class="text-body-1">
+                    <v-card-text class="px-0 text-body-1">
                       <ul>
                         <li
                           v-for="(menu, index) in date.menus"
