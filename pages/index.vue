@@ -359,7 +359,7 @@ export default {
       this.currentMonth = this.currentDate.format('M月');
     },
     setCurrentWeek() {
-      let menus = [];
+      let menus = [[],[],[],[],[],[],[]];
       let week = [];
 
       if (moment().format('YYY-MM-DD') === moment(this.currentDate).format('YYY-MM-DD')) {
