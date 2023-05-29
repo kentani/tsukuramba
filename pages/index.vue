@@ -21,7 +21,7 @@
       align="center"
     >
       <v-col
-        v-for="date in currentWeek"
+        v-for="(date, index) in currentWeek"
         :key="date.date"
         cols="12"
       >
@@ -36,17 +36,14 @@
             style="height: 100%"
           >
             <v-col cols="3">
-              <v-card-title class="pa-0 text-h5 brown--text">
+              <v-card-title
+                class="pa-0 text-h5 brown--text"
+                @click="onClickDate(index)"
+              >
                 <div>{{ date.date }}</div>
                 <div class="pl-2 font-weight-bold">{{ date.day }}</div>
               </v-card-title>
             </v-col>
-
-            <!-- <v-col cols="1">
-              <v-card-title class="pa-0 text-h5 font-weight-bold brown--text">
-                {{ date.day }}
-              </v-card-title>
-            </v-col> -->
 
             <v-col cols="9" style="height: 90%">
               <v-card
@@ -55,7 +52,6 @@
                 style="height: 100%;"
                 color="brown1"
               >
-              <!-- <v-card outlined rounded="xl" class="ml-2" style="height: 100%;"> -->
                 <v-row no-gutters align="center" style="height: 100%; overflow-y: scroll;">
                   <v-col>
                     <v-card-text class="px-0 text-body-1">
@@ -77,6 +73,94 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-dialog
+      v-model="dialog"
+    >
+      <v-card flat color="brown1">
+        <v-row no-gutters>
+          <v-col cols="12">
+            <v-card-text class="pa-2 font-weight-bold">
+              選択済みメニュー
+            </v-card-text>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters>
+          <v-col
+            v-for="(menu, index) in currentMenus"
+            :key="`selected-menu${index}`"
+            cols="12"
+          >
+            <v-card flat class="mx-4 my-1">
+              <v-row no-gutters>
+                <v-col cols="4">
+                  <v-card-text class="pa-0">
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    ></v-img>
+                  </v-card-text>
+                </v-col>
+
+                <v-col cols="8">
+                  <v-card-text class="">
+                    {{ menu }}
+                  </v-card-text>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters>
+          <v-col cols="12">
+            <v-card-text class="pa-2 font-weight-bold">
+              メニューリスト
+            </v-card-text>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters>
+          <v-col
+            v-for="(menu, index) in menuList"
+            :key="`menu${index}`"
+            v-if="!currentMenus.includes(menu.name)"
+            cols="12"
+          >
+            <v-card flat class="mx-4 my-1">
+              <v-row no-gutters>
+                <v-col cols="4">
+                  <v-card-text class="pa-0">
+                    <v-img
+                      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+                    ></v-img>
+                  </v-card-text>
+                </v-col>
+
+                <v-col cols="8">
+                  <v-card-text class="py-1">
+                    {{ menu.name }}
+                  </v-card-text>
+
+                  <v-card-actions class="py-1">
+                    <v-chip
+                      v-for="(tag, index2) in menu.tags"
+                      :key="`menu${index}-tag${index2}`"
+                      x-small
+                      label
+                      outlined
+                      class="text-center mx-1 px-1"
+                    >
+                      {{ tag }}
+                    </v-chip>
+                  </v-card-actions>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -88,7 +172,16 @@ export default {
   data: () => ({
     currentDate: '',
     currentMonth: '',
-    currentWeek: []
+    currentWeek: [],
+    currentMenus: [],
+    dialog: true,
+    menuList: [
+      { name: 'メニュー1', tags: ['和食', 'ごはん'] },
+      { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
+      { name: 'メニュー2', tags: ['和食', 'おつまみ', 'ヘルシー', '肉'] },
+      { name: 'メニュー3', tags: ['洋食', 'おつまみ', 'がっつり', '肉'] },
+      { name: 'メニュー4', tags: ['中華', 'おかず', 'がっつり'] },
+    ]
   }),
   mounted() {
     this.currentDate = moment();
@@ -96,20 +189,18 @@ export default {
     this.currentWeek = [
       { day: '月', date: '29', menus: ['メニュー1', 'メニュー2', 'メニュー3', 'メニュー4'] },
       { day: '火', date: '30', menus: ['メニュー1', 'メニュー2'] },
-      { day: '水', date: '31', menus: ['メニュー1', 'メニュー2'] },
+      { day: '水', date: '31', menus: ['メニュー1', 'メニュー2', 'メニュー3'] },
       { day: '木', date: '01', menus: ['メニュー1', 'メニュー2', 'メニュー3', 'メニュー4', 'メニュー5'] },
-      { day: '金', date: '02', menus: ['メニュー1', 'メニュー2', 'メニュー3'] },
-      { day: '土', date: '03', menus: ['メニュー1', 'メニュー2'] },
-      { day: '日', date: '04', menus: ['メニュー1', 'メニュー2', 'メニュー3'] },
-    ]
-
-    console.log('0', this.currentDate.format('DD'))
-    console.log('1', this.currentDate.day(1).format('DD'))
-    console.log('2', this.currentDate.day(2).format('DD'))
-
+      { day: '金', date: '02', menus: [] },
+      { day: '土', date: '03', menus: [] },
+      { day: '日', date: '04', menus: [] },
+    ];
   },
   methods: {
-
+    onClickDate(index) {
+      this.currentMenus = this.currentWeek[index].menus;
+      this.dialog = false;
+    },
   }
 }
 </script>
