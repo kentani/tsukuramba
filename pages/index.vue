@@ -34,12 +34,10 @@
             no-gutters
             align="center"
             style="height: 100%"
+            @click="onClickDate(index)"
           >
             <v-col cols="3">
-              <v-card-title
-                class="pa-0 text-h5 brown--text"
-                @click="onClickDate(index)"
-              >
+              <v-card-title class="pa-0 text-h5 brown--text">
                 <div>{{ date.date }}</div>
                 <div class="pl-2 font-weight-bold">{{ date.day }}</div>
               </v-card-title>
@@ -77,10 +75,26 @@
     <v-dialog
       v-model="dialog"
     >
-      <v-card flat color="brown1">
+      <v-card
+        flat
+        color="brown1"
+      >
+
+        <v-row
+          no-gutters
+          justify="center"
+        >
+          <v-col cols="4">
+            <v-card-title class="pt-2 pb-0 text-h5 brown--text">
+              <div>{{ selectedDate }}</div>
+              <div class="pl-2 font-weight-bold">{{ selectedDay }}</div>
+            </v-card-title>
+          </v-col>
+        </v-row>
+
         <v-row no-gutters>
           <v-col cols="12">
-            <v-card-text class="pa-2 font-weight-bold">
+            <v-card-text class="px-2 py-0 font-weight-bold">
               選択済みメニュー
             </v-card-text>
           </v-col>
@@ -92,10 +106,16 @@
             :key="`selected-menu${index}`"
             cols="12"
           >
-            <v-card flat class="mx-4 my-1">
-              <v-row no-gutters>
+            <v-card
+              :flat="!isSelected(menu)"
+              class="mx-4 my-1"
+            >
+              <v-row
+                no-gutters
+                @click="onClickMenu(menu, index)"
+              >
                 <v-col cols="4">
-                  <v-card-text class="pa-0">
+                  <v-card-text class="pa-1">
                     <v-img
                       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
                     ></v-img>
@@ -103,9 +123,22 @@
                 </v-col>
 
                 <v-col cols="8">
-                  <v-card-text class="">
+                  <v-card-text class="py-1">
                     {{ menu }}
                   </v-card-text>
+
+                  <v-card-actions class="py-1">
+                    <v-chip
+                      v-for="(tag, index2) in fetchTags(menu)"
+                      :key="`selected-menu${index}-tag${index2}`"
+                      x-small
+                      label
+                      outlined
+                      class="text-center mx-1 px-1"
+                    >
+                      {{ tag }}
+                    </v-chip>
+                  </v-card-actions>
                 </v-col>
               </v-row>
             </v-card>
@@ -114,7 +147,7 @@
 
         <v-row no-gutters>
           <v-col cols="12">
-            <v-card-text class="pa-2 font-weight-bold">
+            <v-card-text class="pa-2 pb-0 font-weight-bold">
               メニューリスト
             </v-card-text>
           </v-col>
@@ -127,10 +160,16 @@
             v-if="!currentMenus.includes(menu.name)"
             cols="12"
           >
-            <v-card flat class="mx-4 my-1">
-              <v-row no-gutters>
+            <v-card
+              :flat="!isSelected(menu.name)"
+              class="mx-4 my-1"
+            >
+              <v-row
+                no-gutters
+                @click="onClickMenu(menu.name, index)"
+              >
                 <v-col cols="4">
-                  <v-card-text class="pa-0">
+                  <v-card-text class="pa-1">
                     <v-img
                       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
                     ></v-img>
@@ -178,10 +217,14 @@ export default {
     menuList: [
       { name: 'メニュー1', tags: ['和食', 'ごはん'] },
       { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
-      { name: 'メニュー2', tags: ['和食', 'おつまみ', 'ヘルシー', '肉'] },
-      { name: 'メニュー3', tags: ['洋食', 'おつまみ', 'がっつり', '肉'] },
-      { name: 'メニュー4', tags: ['中華', 'おかず', 'がっつり'] },
-    ]
+      { name: 'メニュー3', tags: ['和食', 'おつまみ', 'ヘルシー', '肉'] },
+      { name: 'メニュー4', tags: ['洋食', 'おつまみ', 'がっつり', '肉'] },
+      { name: 'メニュー5', tags: ['洋食', 'おかず', '肉'] },
+      { name: 'メニュー6', tags: ['中華', 'おかず', 'がっつり'] },
+    ],
+    selectedMenu: '',
+    selectedDay: '',
+    selectedDate: '',
   }),
   mounted() {
     this.currentDate = moment();
@@ -196,10 +239,46 @@ export default {
       { day: '日', date: '04', menus: [] },
     ];
   },
+  watch: {
+    dialog: function() {
+      this.selectedMenu = '';
+    }
+  },
+  computed: {
+  },
   methods: {
     onClickDate(index) {
-      this.currentMenus = this.currentWeek[index].menus;
+      const week = this.currentWeek[index];
+      this.selectedDay = week.day;
+      this.selectedDate = week.date;
+      this.currentMenus = week.menus;
       this.dialog = true;
+    },
+    onClickMenu(menu, index) {
+      if(this.isSelected(menu)) {
+        if(this.currentMenus.includes(menu)) {
+          this.currentMenus.splice(index, 1);
+        } else {
+          this.currentMenus.push(menu);
+        };
+        this.selectedMenu = '';
+      } else {
+        this.selectedMenu = menu;
+      };
+    },
+    isSelected(menu) {
+      return menu === this.selectedMenu;
+    },
+    fetchTags(menu) {
+      let tags = [];
+
+      this.menuList.forEach(m => {
+        if(menu === m.name) {
+          tags = m.tags;
+        }
+      });
+
+      return tags;
     },
   }
 }
