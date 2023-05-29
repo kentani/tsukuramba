@@ -154,6 +154,43 @@
         </v-row>
 
         <v-row no-gutters>
+          <v-col cols="12">
+            <v-card
+              flat
+              color="brown1"
+              class="mx-4"
+            >
+              <v-card-text class="pa-0">
+                <v-chip
+                  v-for="(tag, index) in tagList"
+                  :key="`form-tag${index}`"
+                  x-small
+                  label
+                  :outlined="!searchTags.includes(tag)"
+                  class="text-center mx-1 px-1"
+                  @click="onClickFormTag(tag)"
+                >
+                  {{ tag }}
+                </v-chip>
+              </v-card-text>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12">
+            <v-text-field
+              v-model="searchName"
+              append-icon="mdi-magnify"
+              dense
+              hide-details
+              placeholder="料理名"
+              color="brown"
+              class="mx-4 mb-2"
+              @click:append="onClickSearch"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters>
           <v-col
             v-for="(menu, index) in menuList"
             :key="`menu${index}`"
@@ -213,7 +250,8 @@ export default {
     currentMonth: '',
     currentWeek: [],
     currentMenus: [],
-    dialog: false,
+    dialog: true,
+    tagList: ['和食', '洋食', '中華', 'ごはん', 'おかず', 'おつまみ', '魚', '肉', '麺', 'スープ', 'サラダ', 'がっつり', 'ヘルシー'],
     menuList: [
       { name: 'メニュー1', tags: ['和食', 'ごはん'] },
       { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
@@ -225,6 +263,8 @@ export default {
     selectedMenu: '',
     selectedDay: '',
     selectedDate: '',
+    searchName: '',
+    searchTags: [],
   }),
   mounted() {
     this.currentDate = moment();
@@ -242,6 +282,16 @@ export default {
   watch: {
     dialog: function() {
       this.selectedMenu = '';
+      this.searchName = '';
+      this.searchTags = [];
+      this.menuList = [
+        { name: 'メニュー1', tags: ['和食', 'ごはん'] },
+        { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
+        { name: 'メニュー3', tags: ['和食', 'おつまみ', 'ヘルシー', '肉'] },
+        { name: 'メニュー4', tags: ['洋食', 'おつまみ', 'がっつり', '肉'] },
+        { name: 'メニュー5', tags: ['洋食', 'おかず', '肉'] },
+        { name: 'メニュー6', tags: ['中華', 'おかず', 'がっつり'] },
+      ]
     }
   },
   computed: {
@@ -279,6 +329,49 @@ export default {
       });
 
       return tags;
+    },
+    onClickFormTag(tag) {
+      if (this.searchTags.includes(tag)) {
+        const index = this.searchTags.indexOf(tag);
+        this.searchTags.splice(index, 1);
+      } else {
+        this.searchTags.push(tag);
+      };
+    },
+    onClickSearch() {
+      if(this.searchName.length === 0 && this.searchTags.length === 0) {
+        this.menuList = [
+          { name: 'メニュー1', tags: ['和食', 'ごはん'] },
+          { name: 'メニュー2', tags: ['和食', 'おかず', 'ヘルシー', '魚'] },
+          { name: 'メニュー3', tags: ['和食', 'おつまみ', 'ヘルシー', '肉'] },
+          { name: 'メニュー4', tags: ['洋食', 'おつまみ', 'がっつり', '肉'] },
+          { name: 'メニュー5', tags: ['洋食', 'おかず', '肉'] },
+          { name: 'メニュー6', tags: ['中華', 'おかず', 'がっつり'] },
+        ]
+
+        return;
+      };
+
+      let searchedMenuList = [];
+
+      this.menuList.forEach(m => {
+        let isHitSearchName = false;
+        let isHitSearchTags = [];
+
+        isHitSearchName = this.searchName.length === 0 || m.name.includes(this.searchName);
+
+        this.searchTags.forEach(t => {
+          if(m.tags.includes(t)) {
+            isHitSearchTags.push(t);
+          }
+        });
+
+        if(isHitSearchName && isHitSearchTags.length === this.searchTags.length) {
+          searchedMenuList.push(m);
+        }
+      });
+
+      this.menuList = searchedMenuList;
     },
   }
 }
