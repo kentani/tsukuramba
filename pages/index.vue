@@ -9,9 +9,47 @@
           flat
           color="brown1"
         >
-          <v-card-title class="justify-center pa-0 pb-2 text-h4 font-weight-bold brown--text">
-            {{ currentMonth }}
-          </v-card-title>
+          <v-row no-gutters>
+            <v-col cols="12">
+              <v-card-title class="justify-center pa-0 pb-2 text-h4 font-weight-bold brown--text">
+                <v-row
+                  no-gutters
+                  justify="center"
+                  align="center"
+                >
+                  <v-col
+                    cols="1"
+                    class="d-flex justify-center"
+                    align-self="center"
+                    @click="onClickPrevWeek"
+                  >
+                    <v-btn x-large icon>
+                      <v-icon>mdi-chevron-left</v-icon>
+                    </v-btn>
+                  </v-col>
+
+                  <v-col
+                    cols="4"
+                    class="d-flex justify-center"
+                    align-self="center"
+                  >
+                    {{ currentMonth }}
+                  </v-col>
+
+                  <v-col
+                    cols="1"
+                    class="d-flex justify-center"
+                    align-self="center"
+                    @click="onClickNextWeek"
+                  >
+                    <v-btn x-large icon>
+                      <v-icon>mdi-chevron-right</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-title>
+            </v-col>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
@@ -289,20 +327,12 @@ export default {
     selectedDay: '',
     selectedDate: '',
     searchName: '',
-    searchTags: [],
+    searchTags: []
   }),
   mounted() {
-    this.currentDate = moment();
-    this.currentMonth = this.currentDate.format('M月');
-    this.currentWeek = [
-      { day: '月', date: '29', menus: ['メニュー1', 'メニュー2', 'メニュー3', 'メニュー4'] },
-      { day: '火', date: '30', menus: ['メニュー1', 'メニュー2'] },
-      { day: '水', date: '31', menus: ['メニュー1', 'メニュー2', 'メニュー3'] },
-      { day: '木', date: '01', menus: ['メニュー1', 'メニュー2', 'メニュー3', 'メニュー4', 'メニュー5'] },
-      { day: '金', date: '02', menus: [] },
-      { day: '土', date: '03', menus: [] },
-      { day: '日', date: '04', menus: [] },
-    ];
+    this.setCurrentDate();
+    this.setCurrentMonth();
+    this.setCurrentWeek();
   },
   watch: {
     dialog: function() {
@@ -322,6 +352,44 @@ export default {
   computed: {
   },
   methods: {
+    setCurrentDate() {
+      this.currentDate = moment();
+    },
+    setCurrentMonth() {
+      this.currentMonth = this.currentDate.format('M月');
+    },
+    setCurrentWeek() {
+      let menus = [];
+      let week = [];
+
+      if (moment().format('YYY-MM-DD') === moment(this.currentDate).format('YYY-MM-DD')) {
+        menus[0] = ['メニュー1', 'メニュー2', 'メニュー3', 'メニュー4'];
+        menus[1] = ['メニュー1', 'メニュー2'];
+      }
+
+      [0, 1, 2, 3, 4, 5, 6].forEach(i => {
+        const now = moment(this.currentDate);
+        let date = now.add(i, "days");
+
+        week.push({
+          day: date.format('ddd'),
+          date: date.format('DD'),
+          menus: menus[i]
+        });
+      });
+
+      this.currentWeek = week;
+    },
+    onClickPrevWeek() {
+      this.currentDate = this.currentDate.subtract(7, "days");
+      this.setCurrentMonth();
+      this.setCurrentWeek(false);
+    },
+    onClickNextWeek() {
+      this.currentDate = this.currentDate.add(7, "days");
+      this.setCurrentMonth();
+      this.setCurrentWeek(false);
+    },
     onClickDate(index) {
       const week = this.currentWeek[index];
       this.selectedDay = week.day;
