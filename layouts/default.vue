@@ -33,28 +33,29 @@
 
     <v-footer
       app
+      fixed
       height="56"
       color="brown1"
       elevation="0"
       class="pa-0"
     >
       <v-bottom-navigation fixed grow>
-        <v-btn>
+        <v-btn style="height: 100%;">
           <span>表示切替</span>
           <v-icon class="mb-2">mdi-swap-horizontal</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn style="height: 100%;">
           <span>買い物リスト</span>
           <v-icon class="mb-2">mdi-shopping</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn style="height: 100%;">
           <span>メニューリスト</span>
           <v-icon class="mb-2">mdi-silverware-fork-knife</v-icon>
         </v-btn>
 
-        <v-btn>
+        <v-btn style="height: 100%;">
           <span>メニュー追加</span>
           <v-icon class="mb-2">mdi-plus</v-icon>
         </v-btn>
