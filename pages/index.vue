@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pt-0">
     <v-row
       no-gutters
       align="center"
@@ -9,7 +9,7 @@
           flat
           color="brown1"
         >
-          <v-card-title class="justify-center pa-0 text-h4 font-weight-bold brown--text">
+          <v-card-title class="justify-center pa-0 pb-2 text-h4 font-weight-bold brown--text">
             {{ currentMonth }}
           </v-card-title>
         </v-card>
@@ -25,6 +25,9 @@
         :key="date.date"
         cols="12"
       >
+
+        <v-divider />
+
         <v-card
           flat
           height="150"
@@ -69,6 +72,8 @@
             </v-col>
           </v-row>
         </v-card>
+
+        <v-divider v-if="index === currentWeek.length - 1" />
       </v-col>
     </v-row>
 
@@ -94,7 +99,7 @@
 
         <v-row no-gutters>
           <v-col cols="12">
-            <v-card-text class="px-2 py-0 font-weight-bold">
+            <v-card-text class="px-2 py-0 brown--text font-weight-bold">
               選択済みメニュー
             </v-card-text>
           </v-col>
@@ -147,7 +152,7 @@
 
         <v-row no-gutters>
           <v-col cols="12">
-            <v-card-text class="pa-2 pb-0 font-weight-bold">
+            <v-card-text class="pa-2 pb-0 brown--text font-weight-bold">
               メニューリスト
             </v-card-text>
           </v-col>
@@ -235,6 +240,26 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            text
+            color="brown"
+            @click="onClickCancelBtn"
+          >
+            キャンセル
+          </v-btn>
+
+          <v-btn
+            text
+            color="brown"
+            @click="onClickSaveBtn"
+          >
+            保存
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-container>
@@ -250,7 +275,7 @@ export default {
     currentMonth: '',
     currentWeek: [],
     currentMenus: [],
-    dialog: true,
+    dialog: false,
     tagList: ['和食', '洋食', '中華', 'ごはん', 'おかず', 'おつまみ', '魚', '肉', '麺', 'スープ', 'サラダ', 'がっつり', 'ヘルシー'],
     menuList: [
       { name: 'メニュー1', tags: ['和食', 'ごはん'] },
@@ -373,6 +398,12 @@ export default {
 
       this.menuList = searchedMenuList;
     },
+    onClickCancelBtn() {
+      this.dialog = false;
+    },
+    onClickSaveBtn() {
+      this.dialog = false;
+    },
   }
 }
 </script>
@@ -395,7 +426,7 @@ ul li {
 }
 
 ul li:before{
-  display:inline-block;
+  display: inline-block;
   vertical-align: middle;
   /*以下白丸つくる*/
   content:'';
