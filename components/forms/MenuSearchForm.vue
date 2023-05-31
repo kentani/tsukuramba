@@ -10,10 +10,10 @@
             <v-chip
               v-for="(tag, index) in tags"
               :key="`menu-search-form-tag${index}`"
-              x-small
+              small
               label
               :outlined="!form.tags.includes(tag)"
-              class="text-center mx-1 px-1"
+              class="text-center ma-1 px-1"
               @click="onClickTag(tag)"
             >
               {{ tag.name }}
