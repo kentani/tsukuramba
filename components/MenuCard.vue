@@ -1,5 +1,5 @@
 <template>
-  <v-card :flat="flat">
+  <v-card :flat="flat" :elevation="elevation" :outlined="outlined">
     <v-row
       no-gutters
       @click="onClickMenu"
@@ -72,11 +72,15 @@ export default {
   },
   computed: {
     sortedTags() {
-      const tags = this.tags.sort((a, b) => {
+      return this.tags.sort((a, b) => {
         return a.sort < b.sort;
       });
-
-      return tags;
+    },
+    elevation() {
+      return this.flat ? 0 : 8;
+    },
+    outlined() {
+      return false;
     }
   },
   methods: {
