@@ -7,12 +7,13 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
-  router: {
-    base: '/tsukuramba/'
-  },
+  // router: {
+  //   base: '/tsukuramba/'
+  // },
 
   generate: {
-    dir: 'docs'
+    // dir: 'docs',
+    subFolders: false
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -39,6 +40,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/firebase.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -57,6 +59,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/dotenv'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

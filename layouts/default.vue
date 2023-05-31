@@ -45,15 +45,20 @@
           <v-icon class="mb-2">mdi-swap-horizontal</v-icon>
         </v-btn> -->
 
-        <v-btn style="height: 100%;">
-          <span>買い物リスト</span>
-          <v-icon class="mb-2">mdi-shopping</v-icon>
+        <v-btn
+          v-for="(item, index) in bottomItems"
+          :key="item.to"
+          style="height: 100%;"
+          @click="onClickBtn(index)"
+        >
+          <span style="color: #795548;">{{ item.name }}</span>
+          <v-icon color="brown" class="mb-2">{{ item.icon }}</v-icon>
         </v-btn>
 
-        <v-btn style="height: 100%;">
-          <span>メニューリスト</span>
-          <v-icon class="mb-2">mdi-silverware-fork-knife</v-icon>
-        </v-btn>
+        <!-- <v-btn style="height: 100%;">
+          <span>買い物リスト</span>
+          <v-icon class="mb-2">mdi-shopping</v-icon>
+        </v-btn> -->
 
         <!-- <v-btn style="height: 100%;">
           <span>メニュー追加</span>
@@ -67,34 +72,39 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  data () {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: false,
-      rightDrawer: false,
-      title: 'つくらんば'
+  data: () => ({
+    clipped: false,
+    drawer: false,
+    fixed: false,
+    items: [
+      {
+        icon: 'mdi-apps',
+        title: 'Welcome',
+        to: '/'
+      },
+      {
+        icon: 'mdi-chart-bubble',
+        title: 'Inspire',
+        to: '/inspire'
+      }
+    ],
+    miniVariant: false,
+    right: false,
+    rightDrawer: false,
+    title: 'つくらんば',
+    bottomItems: [
+      { name: '献立表', icon: 'mdi-silverware', to: '/' },
+      { name: 'メニューリスト', icon: 'mdi-silverware-fork-knife', to: '/menus' },
+    ]
+  }),
+  methods: {
+    onClickBtn(index) {
+      const item = this.bottomItems[index];
+      this.$router.push(item.to);
     }
   }
 }
 </script>
 
 <style>
-body {
-  background-color: #A1887F;
-}
 </style>
