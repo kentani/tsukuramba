@@ -12,7 +12,9 @@
               :key="`menu-search-form-tag${index}`"
               small
               label
-              :outlined="!form.tags.includes(tag)"
+              :input-value="form.tags.includes(tag)"
+              filter
+              outlined
               class="text-center ma-1 px-1"
               @click="onClickTag(tag)"
             >
