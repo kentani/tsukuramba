@@ -194,7 +194,10 @@ export default {
       this.tagList = Object.values(this.tagsHash);
     },
     async fetchAllMenusFromDB() {
-      const querySnapshot = await getDocs(this.buildRef('menus'));
+      const querySnapshot = await getDocs(query(
+        this.buildRef('menus'),
+        orderBy('createdAt', 'desc')
+      ));
 
       querySnapshot.forEach((doc) => {
         this.menusHash[doc.id] = doc.data();

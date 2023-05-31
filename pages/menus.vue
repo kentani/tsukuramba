@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { getFirestore, collection, query, orderBy, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, query, orderBy, getDocs, doc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 
 import MenuCard from '@/components/MenuCard.vue';
 import MenuForm from '@/components/forms/MenuForm.vue';
@@ -126,7 +126,10 @@ export default {
       this.tagList = Object.values(this.tagsHash);
     },
     async fetchAllMenusFromDB() {
-      const querySnapshot = await getDocs(this.buildRef('menus'));
+      const querySnapshot = await getDocs(query(
+        this.buildRef('menus'),
+        orderBy('createdAt', 'desc')
+      ));
 
       querySnapshot.forEach((doc) => {
         this.menusHash[doc.id] = doc.data();
@@ -148,6 +151,7 @@ export default {
         name: form.name,
         url: form.url,
         tags: form.tags.map(tagName => tags[tagName]),
+        updatedAt: serverTimestamp(),
       }
 
       await updateDoc(docRef, this.formData);
@@ -166,6 +170,8 @@ export default {
         name: form.name,
         url: form.url,
         tags: form.tags.map(tagName => tags[tagName]),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       }
 
       await setDoc(docRef, this.formData);
@@ -191,15 +197,16 @@ export default {
 
         this.menuList.splice(index, 1, {
           ...this.formData,
-          tags: this.formData.tags.map(tagID => this.tagsHash[tagID])
+          tags: this.formData.tags.map(tagID => this.tagsHash[tagID]),
+          updatedAt: serverTimestamp(),
         })
       } else {
         // 作成
         this.createMenu(form);
 
-        this.menuList.push({
+        this.menuList.unshift({
           ...this.formData,
-          tags: this.formData.tags.map(tagID => this.tagsHash[tagID])
+          tags: this.formData.tags.map(tagID => this.tagsHash[tagID]),
         })
       };
 
