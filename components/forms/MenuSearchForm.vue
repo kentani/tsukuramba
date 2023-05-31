@@ -10,9 +10,10 @@
             <v-chip
               v-for="(tag, index) in tags"
               :key="`menu-search-form-tag${index}`"
+              :input-value="form.tags.includes(tag)"
+              :ripple="false"
               small
               label
-              :input-value="form.tags.includes(tag)"
               filter
               outlined
               class="text-center ma-1 px-1"
