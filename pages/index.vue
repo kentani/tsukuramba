@@ -199,7 +199,7 @@ export default {
     async fetchAllMenusFromDB() {
       const querySnapshot = await getDocs(query(
         this.buildRef('menus'),
-        orderBy('createdAt', 'desc')
+        orderBy('updatedAt', 'desc')
       ));
 
       querySnapshot.forEach((doc) => {

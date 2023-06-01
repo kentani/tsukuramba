@@ -135,7 +135,7 @@ export default {
     async fetchAllMenusFromDB() {
       const querySnapshot = await getDocs(query(
         this.buildRef('menus'),
-        orderBy('createdAt', 'desc')
+        orderBy('updatedAt', 'desc')
       ));
 
       querySnapshot.forEach((doc) => {
@@ -156,6 +156,7 @@ export default {
       this.formData = {
         id: docRef.id,
         name: form.name,
+        imageName: form.imageName,
         url: form.url,
         tags: form.tags.map(tagName => tags[tagName]),
         updatedAt: serverTimestamp(),
@@ -175,6 +176,7 @@ export default {
       this.formData = {
         id: docRef.id,
         name: form.name,
+        imageName: form.imageName,
         url: form.url,
         tags: form.tags.map(tagName => tags[tagName]),
         createdAt: serverTimestamp(),
