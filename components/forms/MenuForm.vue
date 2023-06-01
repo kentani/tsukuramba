@@ -49,6 +49,7 @@
                 color="brown"
                 item-color="brown"
                 multiple
+                disable-lookup
               ></v-autocomplete>
             </v-col>
 
