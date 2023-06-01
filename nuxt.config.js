@@ -51,6 +51,7 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
     '@nuxtjs/moment',
+    '@nuxtjs/pwa',
   ],
 
   moment: {
@@ -59,7 +60,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
   ],
 
   pwa: {
