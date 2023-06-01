@@ -18,8 +18,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: 'tsukuramba',
-    title: 'tsukuramba',
+    titleTemplate: 'つくらんば',
+    title: 'つくらんば',
     htmlAttrs: {
       lang: 'ja'
     },
@@ -61,6 +61,60 @@ export default {
   modules: [
     '@nuxtjs/dotenv'
   ],
+
+  pwa: {
+    icon: {
+      source: '/static/hat.png',
+      fileName: 'hat.png'
+    },
+    meta: {
+      mobileApp: true,
+      mobileAppIOS: true,
+      appleStatusBarStyle: '#795548',
+    },
+    manifest: {
+      lang: 'ja',
+      name: 'つくらんば',
+      short_name: 'つくらんば',
+      description: 'つくらんば',
+      display: 'standalone',
+      theme_color: '#795548',
+      background_color: '#795548',
+      orientation: 'portrait',
+      scope: '/',
+      start_url: '/',
+      icons: [
+        {
+          src: '/hat.png',
+          sizes: '256x256',
+          type: 'image/png'
+        }
+      ]
+    },
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: '^https://tsukuramba.web.app/.*',
+          handler: 'cacheFirst'
+        },
+        {
+          urlPattern: '^https://tsukuramba.web.app/.*',
+          handler: 'staleWhileRevalidate',
+          strategyOptions: {
+            cacheName: 'site-cache',
+          },
+          strategyPlugins: [
+            {
+              use: 'Expiration',
+              config: {
+                maxAgeSeconds: 24 * 60 * 60 * 30
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
