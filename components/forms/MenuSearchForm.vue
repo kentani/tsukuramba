@@ -25,10 +25,9 @@
         </v-card>
       </v-col>
 
-      <v-col cols="12">
+      <v-col cols="10">
         <v-text-field
           v-model="form.name"
-          append-icon="mdi-magnify"
           dense
           hide-details
           placeholder="料理名"
@@ -36,6 +35,17 @@
           class="mx-1"
           @input="onChangeName"
         ></v-text-field>
+      </v-col>
+
+      <v-col cols="2">
+        <v-btn
+          icon
+          :ripple="false"
+          :disabled="form.name.length === 0 && form.tags.length === 0"
+          @click="onClickClose"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -77,6 +87,10 @@ export default {
       this.search();
     },
     onChangeName() {
+      this.search();
+    },
+    onClickClose() {
+      this.resetForm();
       this.search();
     },
     search() {

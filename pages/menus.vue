@@ -7,7 +7,7 @@
     >
       <v-col cols="3">
         <div class="text-center text-caption brown--text">メニュー数</div>
-        <div class="text-center text-caption brown--text font-weight-bold">{{ menuList.length }}</div>
+        <div class="text-center text-body-1 brown--text font-weight-bold">{{ menuList.length }}</div>
       </v-col>
 
       <v-col cols="4" class="text-center">
