@@ -273,11 +273,12 @@ export default {
       const numList = new Array(end - start + 1).fill(null).map((_, i) => i + start);
       if (isReverse) { numList.reverse(); }
 
-      numList.forEach(num => {
-        setTimeout(() => {
-          this.menuCount = num;
-        }, 500)
-      });
+      (async () => {
+        for(let i of numList) {
+          await this.sleep(10);
+          this.menuCount = i;
+        }
+      })();
     },
 
     //////////////////////
@@ -291,6 +292,13 @@ export default {
       this.selectedMenu = null;
       this.selectedMenuID = null;
     },
+    sleep(time) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, time);
+      });
+    }
   }
 }
 </script>

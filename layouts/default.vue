@@ -33,15 +33,15 @@
 
     <v-fab-transition>
       <v-btn
-        color="brown"
+        v-show="buttonActive"
         fab
         dark
         small
         absolute
         right
+        color="brown"
         style="bottom: 35px; position: fixed;"
         @click="$vuetify.goTo(0)"
-        v-show="buttonActive"
       >
         <v-icon>mdi-chevron-up</v-icon>
       </v-btn>
@@ -56,11 +56,6 @@
       class="pa-0"
     >
       <v-bottom-navigation fixed grow>
-        <!-- <v-btn style="height: 100%;">
-          <span>表示切替</span>
-          <v-icon class="mb-2">mdi-swap-horizontal</v-icon>
-        </v-btn> -->
-
         <v-btn
           v-for="(item, index) in bottomItems"
           :key="item.to"
@@ -70,16 +65,6 @@
           <span style="color: #795548;">{{ item.name }}</span>
           <v-icon color="brown" class="mb-2">{{ item.icon }}</v-icon>
         </v-btn>
-
-        <!-- <v-btn style="height: 100%;">
-          <span>買い物リスト</span>
-          <v-icon class="mb-2">mdi-shopping</v-icon>
-        </v-btn> -->
-
-        <!-- <v-btn style="height: 100%;">
-          <span>メニュー追加</span>
-          <v-icon class="mb-2">mdi-plus</v-icon>
-        </v-btn> -->
       </v-bottom-navigation>
     </v-footer>
   </v-app>
