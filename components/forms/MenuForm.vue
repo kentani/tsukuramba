@@ -53,7 +53,7 @@
               ></v-autocomplete>
             </v-col>
 
-            <v-col cols="10">
+            <v-col cols="8">
               <v-text-field
                 v-model="form.reference"
                 label="参考サイト"
@@ -70,6 +70,17 @@
                 color="brown"
                 :disabled="form.reference.length === 0"
                 @click="onClickReference"
+              >
+                <v-icon>mdi-open-in-new</v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col cols="2">
+              <v-btn
+                icon
+                color="brown"
+                :disabled="form.reference.length === 0"
+                @click="onClickReference2"
               >
                 <v-icon>mdi-open-in-new</v-icon>
               </v-btn>
@@ -213,6 +224,9 @@ export default {
     onClickReference() {
       window.location.href = this.form.reference;
     },
+    onClickReference2() {
+      window.open(this.form.reference, '_blank');
+    },
 
     //////////////////////
     // その他
@@ -224,6 +238,7 @@ export default {
     setForm(menu) {
       if (menu['id']) {
         let data = {
+          ...this.form,
           ...menu,
           isEdit: true,
         }
