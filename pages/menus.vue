@@ -7,7 +7,7 @@
     >
       <v-col cols="3">
         <div class="text-center text-caption brown--text">メニュー数</div>
-        <div class="text-center text-h6 brown--text font-weight-bold">{{ menuList.length }}</div>
+        <div class="text-center text-h6 brown--text font-weight-bold">{{ menuCount }}</div>
       </v-col>
 
       <v-col cols="4" class="text-center">
@@ -102,11 +102,15 @@ export default {
     selectedMenuID: null,
     selectedMenu: {},
     fetchedData: false,
+    menuCount: 0,
+    beforeMenuCount: 0,
+    afterMenuCount: 0,
   }),
   async mounted() {
     await this.fetchAllTagsFromDB();
     await this.fetchAllMenusFromDB();
     this.fetchedData = true;
+    this.setMenuCount();
   },
   methods: {
     //////////////////////
@@ -236,8 +240,9 @@ export default {
     onClickTagFormSave() {
       this.tagFormDialog = false;
     },
-    onClickMenuSearchFormSearch(searchedMenus) {
-      this.menuList = searchedMenus.map(menu => ({...menu}));
+    async onClickMenuSearchFormSearch(searchedMenus) {
+      this.menuList = await searchedMenus.map(menu => ({...menu}));
+      this.setMenuCount();
     },
 
     //////////////////////
@@ -249,6 +254,31 @@ export default {
           ...menu,
           tags: menu.tags?.map(tagID => this.tagsHash[tagID])
         };
+      });
+    },
+    setMenuCount() {
+      let start, end;
+      this.beforeMenuCount = this.menuCount;
+      this.afterMenuCount = this.menuList.length;
+      const isReverse = (this.beforeMenuCount > this.afterMenuCount);
+
+      if (isReverse) {
+        start = this.afterMenuCount;
+        end = this.beforeMenuCount;
+      } else {
+        start = this.beforeMenuCount;
+        end = this.afterMenuCount;
+      }
+
+      const numList = new Array(end - start + 1).fill(null).map((_, i) => i + start);
+      if (isReverse) { numList.reverse(); }
+
+      console.log(start, end, numList, isReverse);
+
+      numList.forEach(num => {
+        setTimeout(() => {
+          this.menuCount = num;
+        }, 1000)
       });
     },
 
