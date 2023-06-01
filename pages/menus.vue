@@ -278,7 +278,7 @@ export default {
       numList.forEach(num => {
         setTimeout(() => {
           this.menuCount = num;
-        }, 1000)
+        }, 500)
       });
     },
 
