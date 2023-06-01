@@ -273,8 +273,6 @@ export default {
       const numList = new Array(end - start + 1).fill(null).map((_, i) => i + start);
       if (isReverse) { numList.reverse(); }
 
-      console.log(start, end, numList, isReverse);
-
       numList.forEach(num => {
         setTimeout(() => {
           this.menuCount = num;
