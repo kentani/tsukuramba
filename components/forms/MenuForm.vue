@@ -53,8 +53,30 @@
               ></v-autocomplete>
             </v-col>
 
+            <v-col cols="10">
+              <v-text-field
+                v-model="form.reference"
+                label="参考サイト"
+                color="brown"
+                dense
+                hide-details
+                @change="onChangeName"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="2">
+              <v-btn
+                icon
+                color="brown"
+                :disabled="form.reference.length === 0"
+                @click="onClickReference"
+              >
+                <v-icon>mdi-open-in-new</v-icon>
+              </v-btn>
+            </v-col>
+
             <v-col cols="12" class="py-0">
-              <div class="text-body-2">イメージ</div>
+              <div class="text-caption brown--text">イメージ</div>
             </v-col>
 
             <v-col cols="12">
@@ -121,6 +143,7 @@ export default {
       imageName: '',
       image: '',
       url: '',
+      reference: '',
       tags: [],
       isEdit: false,
     }
@@ -187,6 +210,9 @@ export default {
       this.$emit('save', this.form);
       this.close();
     },
+    onClickReference() {
+      window.location.href = this.form.reference;
+    },
 
     //////////////////////
     // その他
@@ -211,6 +237,7 @@ export default {
         image: '',
         imageName: '',
         url: '',
+        reference: '',
         tags: [],
         isEdit: false,
       }
