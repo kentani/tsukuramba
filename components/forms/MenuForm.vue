@@ -61,6 +61,7 @@
                 :name="form.name || '料理名'"
                 :tags="tags.filter(t => form.tags.includes(t.name))"
                 :url="form.url"
+                :loaded="loaded"
               ></menu-card>
             </v-col>
           </v-row>
@@ -131,6 +132,10 @@ export default {
     tags: {
       type: Array,
       default: [],
+    },
+    loaded: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

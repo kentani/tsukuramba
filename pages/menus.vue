@@ -88,6 +88,7 @@
       :dialog="menuFormDialog"
       :tags="tagList"
       :menu="selectedMenu"
+      :loaded="fetchedData"
       @cancel="onClickMenuFormCancel"
       @save="onClickMenuFormSave"
     ></menu-form>
