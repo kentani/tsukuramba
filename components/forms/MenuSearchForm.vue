@@ -37,7 +37,7 @@
         ></v-text-field>
       </v-col>
 
-      <v-col cols="2">
+      <v-col cols="2" class="text-center">
         <v-btn
           icon
           :ripple="false"
