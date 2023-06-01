@@ -5,7 +5,7 @@
       flat
       dark
       dense
-      hide-on-scroll
+      fixed
       color="brown"
     >
       <v-toolbar-title>
@@ -30,6 +30,22 @@
         <Nuxt />
       </v-container>
     </v-main>
+
+    <v-fab-transition>
+      <v-btn
+        color="brown"
+        fab
+        dark
+        small
+        absolute
+        right
+        style="bottom: 35px; position: fixed;"
+        @click="$vuetify.goTo(0)"
+        v-show="buttonActive"
+      >
+        <v-icon>mdi-chevron-up</v-icon>
+      </v-btn>
+    </v-fab-transition>
 
     <v-footer
       app
@@ -73,34 +89,30 @@
 export default {
   name: 'DefaultLayout',
   data: () => ({
-    clipped: false,
-    drawer: false,
-    fixed: false,
-    items: [
-      {
-        icon: 'mdi-apps',
-        title: 'Welcome',
-        to: '/'
-      },
-      {
-        icon: 'mdi-chart-bubble',
-        title: 'Inspire',
-        to: '/inspire'
-      }
-    ],
-    miniVariant: false,
-    right: false,
-    rightDrawer: false,
+    buttonActive: false,
+    scroll: 0,
     title: 'つくらんば',
     bottomItems: [
       { name: '献立表', icon: 'mdi-silverware', to: '/' },
       { name: 'メニューリスト', icon: 'mdi-silverware-fork-knife', to: '/menus' },
     ]
   }),
+  mounted() {
+    window.addEventListener('scroll', this.scrollWindow) // スクロールの位置を監視
+  },
   methods: {
     onClickBtn(index) {
       const item = this.bottomItems[index];
       this.$router.push(item.to);
+    },
+    scrollWindow() {
+      const top = 200
+      this.scroll = window.scrollY
+      if (top <= this.scroll) { // 200px以上スクロールした場合のみボタンを表示
+        this.buttonActive = true
+      } else {
+        this.buttonActive = false
+      }
     }
   }
 }

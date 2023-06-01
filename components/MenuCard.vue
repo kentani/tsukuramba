@@ -7,8 +7,8 @@
       <v-col cols="4">
         <v-card-text class="pa-1">
           <v-img
-            height="70"
-            width="90"
+            height="75"
+            width="100"
             position="center center"
             :src="url || defaultImage"
             alt="料理画像"

@@ -7,14 +7,14 @@
     >
       <v-col cols="3">
         <div class="text-center text-caption brown--text">メニュー数</div>
-        <div class="text-center text-body-1 brown--text font-weight-bold">{{ menuList.length }}</div>
+        <div class="text-center text-h6 brown--text font-weight-bold">{{ menuList.length }}</div>
       </v-col>
 
       <v-col cols="4" class="text-center">
         <v-btn
           outlined
-          small
           block
+          small
           color="brown"
           class="my-2"
           @click="onClickAddMenu"
@@ -26,8 +26,8 @@
       <v-col cols="4" class="text-center">
         <v-btn
           outlined
-          small
           block
+          small
           disabled
           color="brown"
           class="my-2"
