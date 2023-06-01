@@ -2,81 +2,84 @@
   <v-dialog
     v-model="dialog"
     persistent
+    scrollable
+    fullscreen
   >
     <v-card
       flat
       color="brown1"
     >
-      <v-row
-        no-gutters
-        justify="center"
+      <v-card-title class="pt-2 pb-2 justify-center text-h5 brown--text">
+        <div>{{ date }}</div>
+        <div class="pl-2 font-weight-bold">{{ day }}</div>
+      </v-card-title>
+
+      <v-card-subtitle class="px-2 pb-1 text-body-2 brown--text font-weight-bold d-flex">
+        <div>献立</div>
+        <div class="pl-2 text-body-2 font-weight-bold">{{ menuTables.length }}</div>
+      </v-card-subtitle>
+
+      <v-card-text
+        class="px-0 pb-2"
+        style="max-height: 120px; min-height: 0px;"
       >
-        <v-col cols="4">
-          <v-card-title class="pt-2 pb-0 text-h5 brown--text">
-            <div>{{ date }}</div>
-            <div class="pl-2 font-weight-bold">{{ day }}</div>
-          </v-card-title>
-        </v-col>
-      </v-row>
+        <v-row no-gutters>
+          <v-col
+            v-for="(menu, index) in menuTables"
+            :key="`selected-menu${index}`"
+            cols="12"
+          >
+            <menu-card
+              :name="menu.name"
+              :tags="menu.tags"
+              :url="menu.url"
+              :flat="!(menu.id === selectedMenuID)"
+              class="mx-4 my-1"
+              @clickMenu="onClickMenu(menu)"
+            ></menu-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
 
-      <v-row no-gutters>
-        <v-col cols="12">
-          <v-card-text class="px-2 py-0 brown--text font-weight-bold">
-            選択済みメニュー
-          </v-card-text>
-        </v-col>
-      </v-row>
+      <v-card-subtitle class="px-2 pb-1 text-body-2 brown--text font-weight-bold">
+        メニューリスト
+      </v-card-subtitle>
 
-      <v-row no-gutters>
-        <v-col
-          v-for="(menu, index) in menuTables"
-          :key="`selected-menu${index}`"
-          cols="12"
-        >
-          <menu-card
-            :name="menu.name"
-            :tags="menu.tags"
-            :url="menu.url"
-            :flat="!(menu.id === selectedMenuID)"
-            class="mx-4 my-1"
-            @clickMenu="onClickMenu(menu)"
-          ></menu-card>
-        </v-col>
-      </v-row>
+      <v-card-text
+        class="pa-0"
+        style="min-height: 140px;"
+      >
+        <menu-search-form
+          :menus="menus"
+          :tags="tags"
+          class="pt-0 pb-2 px-2"
+          @search="onClickMenuSearchFormSearch"
+        ></menu-search-form>
+      </v-card-text>
 
-      <v-row no-gutters>
-        <v-col cols="12">
-          <v-card-text class="pa-2 pb-0 brown--text font-weight-bold">
-            メニューリスト
-          </v-card-text>
-        </v-col>
-      </v-row>
+      <v-card-text
+        class="px-0 pb-2"
+        style="height: 600px;"
+      >
+        <v-row no-gutters>
+          <v-col
+            v-for="(menu, index) in menus"
+            :key="`menu${index}`"
+            cols="12"
+          >
+            <menu-card
+              :name="menu.name"
+              :tags="menu.tags"
+              :url="menu.url"
+              :flat="!(menu.id === selectedMenuID)"
+              class="mx-4 my-1"
+              @clickMenu="onClickMenu(menu)"
+            ></menu-card>
+          </v-col>
+        </v-row>
+      </v-card-text>
 
-      <menu-search-form
-        :menus="menus"
-        :tags="tags"
-        class="pt-0 pb-2 px-4"
-        @search="onClickMenuSearchFormSearch"
-      ></menu-search-form>
-
-      <v-row no-gutters>
-        <v-col
-          v-for="(menu, index) in menus"
-          :key="`menu${index}`"
-          cols="12"
-        >
-          <menu-card
-            :name="menu.name"
-            :tags="menu.tags"
-            :url="menu.url"
-            :flat="!(menu.id === selectedMenuID)"
-            class="mx-4 my-1"
-            @clickMenu="onClickMenu(menu)"
-          ></menu-card>
-        </v-col>
-      </v-row>
-
-      <v-card-actions>
+      <v-card-actions class="px-2 pt-0">
         <v-spacer />
 
         <v-btn
@@ -90,6 +93,7 @@
         <v-btn
           text
           color="brown"
+          class="font-weight-bold"
           @click="onClickSaveBtn"
         >
           保存
@@ -118,7 +122,7 @@ export default {
       image: '',
       url: '',
       tags: [],
-    }
+    },
   }),
   props: {
     dialog: {
@@ -145,6 +149,8 @@ export default {
       type: Array,
       default: [],
     },
+  },
+  computed: {
   },
   methods: {
     onClickMenu(menu) {

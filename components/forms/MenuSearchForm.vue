@@ -33,7 +33,7 @@
           hide-details
           placeholder="料理名"
           color="brown"
-          class="mx-1 mb-2"
+          class="mx-1"
           @click:append="onClickSearch"
         ></v-text-field>
       </v-col>
