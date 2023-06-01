@@ -41,6 +41,7 @@
     <v-divider class="mx-1"></v-divider>
 
     <menu-search-form
+      :key="`menu-search-form-${fetchedData}`"
       :menus="menuList"
       :tags="tagList"
       class="my-2"
@@ -100,10 +101,12 @@ export default {
     selectedMenuIndex: null,
     selectedMenuID: null,
     selectedMenu: {},
+    fetchedData: false,
   }),
   async mounted() {
     await this.fetchAllTagsFromDB();
     await this.fetchAllMenusFromDB();
+    this.fetchedData = true;
   },
   methods: {
     //////////////////////

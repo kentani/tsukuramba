@@ -121,6 +121,7 @@
 
     <menu-table-form
       :dialog="dialog"
+      :fetched-data="fetchedData"
       :day="currentMenuTable.day"
       :date="currentMenuTable.date"
       :menuTables="currentMenuTable.menus || []"
@@ -162,6 +163,7 @@ export default {
     defaultMenuTable: {},
     tagList: [],
     menuList: [],
+    fetchedData: false,
   }),
   async mounted() {
     this.setCurrentDate();
@@ -172,6 +174,7 @@ export default {
     await this.fetchAllMenusFromDB();
     await this.fetchMenuTablesFromDB();
     this.setMenuTables();
+    this.fetchedData = true;
   },
   methods: {
     //////////////////////

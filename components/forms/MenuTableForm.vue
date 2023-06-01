@@ -41,8 +41,9 @@
         </v-row>
       </v-card-text>
 
-      <v-card-subtitle class="px-2 pb-1 text-body-2 brown--text font-weight-bold">
-        メニューリスト
+      <v-card-subtitle class="px-2 pb-1 text-body-2 brown--text font-weight-bold d-flex">
+        <div>メニューリスト</div>
+        <div class="pl-2 text-body-2 font-weight-bold">{{ menus.length }}</div>
       </v-card-subtitle>
 
       <v-card-text
@@ -50,6 +51,7 @@
         style="min-height: 140px;"
       >
         <menu-search-form
+          :key="`menu-search-form-${fetchedData}`"
           :menus="menus"
           :tags="tags"
           class="pt-0 pb-2 px-2"
@@ -126,6 +128,10 @@ export default {
   }),
   props: {
     dialog: {
+      type: Boolean,
+      default: false,
+    },
+    fetchedData: {
       type: Boolean,
       default: false,
     },

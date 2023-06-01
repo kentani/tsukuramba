@@ -34,7 +34,7 @@
           placeholder="料理名"
           color="brown"
           class="mx-1"
-          @click:append="onClickSearch"
+          @input="onChangeName"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -74,17 +74,21 @@ export default {
         this.form.tags.push(tag);
       };
 
-      this.$emit('clickTag');
+      this.search();
     },
-    onClickSearch() {
+    onChangeName() {
+      this.search();
+    },
+    search() {
+      this.searchedMenus = [];
+
       if(this.form.name.length === 0 && this.form.tags.length === 0) {
-        this.$emit('search', this.defaultMenus);
+        this.searchedMenus = this.defaultMenus.map(menu => ({...menu}));
+        this.$emit('search', this.searchedMenus);
         return;
       };
 
-      this.searchedMenus = [];
-
-      this.menus.forEach(m => {
+      this.defaultMenus.forEach(m => {
         let isHitName = false;
         let isHitTags = [];
 
@@ -102,7 +106,16 @@ export default {
       });
 
       this.$emit('search', this.searchedMenus);
-    }
+    },
+    setDefaultMenus() {
+      this.defaultMenus = this.menus.map(menu => ({...menu}));
+    },
+    resetForm() {
+      this.form = {
+        name: '',
+        tags: [],
+      }
+    },
   }
 }
 </script>
