@@ -2,13 +2,15 @@
   <v-dialog
     v-model="dialog"
     persistent
+    scrollable
+    fullscreen
   >
     <v-card
       flat
       color="brown1"
     >
       <v-card-title class="px-4 text-body-1 brown--text font-weight-bold">
-        メニュー追加
+        {{ title }}
       </v-card-title>
 
       <v-card-text class="px-2 pb-0">
@@ -51,7 +53,7 @@
             </v-col>
 
             <v-col cols="12" class="py-0">
-              <div class="brown--text">イメージ</div>
+              <div class="text-body-2">イメージ</div>
             </v-col>
 
             <v-col cols="12">
@@ -65,7 +67,7 @@
         </v-container>
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions class="px-2 pt-0">
         <v-spacer />
 
         <v-btn
@@ -79,6 +81,7 @@
         <v-btn
           text
           color="brown"
+          class="font-weight-bold"
           @click="onClickSaveBtn"
         >
           保存
@@ -130,7 +133,10 @@ export default {
       default: [],
     },
   },
-  mounted() {
+  computed: {
+    title() {
+      return this.form.isEdit ? 'メニューの編集' : 'メニューの追加';
+    }
   },
   methods: {
     //////////////////////
