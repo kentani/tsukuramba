@@ -44,11 +44,12 @@
       :key="`menu-search-form-${fetchedData}`"
       :menus="menuList"
       :tags="tagList"
+      :loaded="fetchedData"
       class="my-2"
       @search="onClickMenuSearchFormSearch"
     ></menu-search-form>
 
-    <v-row no-gutters>
+    <v-row v-if="fetchedData" no-gutters>
       <v-col
         v-for="(menu, index) in menuList"
         :key="`menu${index}`"
@@ -60,7 +61,24 @@
           :tags="menu.tags"
           :url="menu.url"
           :flat="!(menu.id === selectedMenuID)"
+          :loaded="fetchedData"
           @clickMenu="onClickMenu(menu)"
+        ></menu-card>
+      </v-col>
+    </v-row>
+
+    <v-row v-else no-gutters>
+      <v-col
+        v-for="num in [1,2,3,4,5,6,7,8,9,10]"
+        :key="`menu${num}`"
+        cols="12"
+        class="my-1"
+      >
+        <menu-card
+          name="none"
+          :tags="[]"
+          url="none"
+          :loaded="fetchedData"
         ></menu-card>
       </v-col>
     </v-row>
@@ -107,7 +125,7 @@ export default {
     afterMenuCount: 0,
   }),
   async mounted() {
-    await this.fetchAllTagsFromDB();
+    this.fetchAllTagsFromDB();
     await this.fetchAllMenusFromDB();
     this.fetchedData = true;
     this.setMenuCount();

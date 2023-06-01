@@ -55,6 +55,7 @@
     </v-row>
 
     <v-row
+      v-if="fetchedData"
       no-gutters
       align="center"
     >
@@ -119,6 +120,64 @@
       </v-col>
     </v-row>
 
+    <v-row
+      v-else
+      no-gutters
+      align="center"
+    >
+      <v-col
+        v-for="num in [1,2,3,4,5,6,7]"
+        :key="num"
+        cols="12"
+      >
+
+        <v-divider />
+
+        <v-card
+          flat
+          height="150"
+          color="brown1"
+        >
+          <v-row
+            no-gutters
+            align="center"
+            style="height: 100%"
+          >
+            <v-col cols="3">
+              <v-card-title class="pa-0 text-h5 brown--text">
+                <v-skeleton-loader type="button" />
+              </v-card-title>
+            </v-col>
+
+            <v-col cols="9" style="height: 90%">
+              <v-card
+                flat
+                rounded="lg"
+                style="height: 100%;"
+                color="brown1"
+              >
+                <v-row
+                  no-gutters
+                  align="center"
+                  style="height: 100%; overflow-y: scroll;"
+                >
+                  <v-col>
+                    <v-card-text class="px-0 text-body-1">
+                      <v-skeleton-loader class="my-1" type="text" />
+                      <v-skeleton-loader class="my-1" type="text" />
+                      <v-skeleton-loader class="my-1" type="text" />
+                    </v-card-text>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+
+        <v-divider v-if="num === 7" />
+      </v-col>
+    </v-row>
+
     <menu-table-form
       :dialog="dialog"
       :fetched-data="fetchedData"
@@ -170,8 +229,8 @@ export default {
     this.setCurrentMonth();
     this.setCurrentWeek();
 
-    await this.fetchAllTagsFromDB();
-    await this.fetchAllMenusFromDB();
+    this.fetchAllTagsFromDB();
+    this.fetchAllMenusFromDB();
     await this.fetchMenuTablesFromDB();
     this.setMenuTables();
     this.fetchedData = true;
@@ -370,6 +429,13 @@ export default {
     //////////////////////
     deepCopy(obj) {
       return JSON.parse(JSON.stringify(obj))
+    },
+    sleep(time) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve();
+        }, time);
+      });
     },
   }
 }

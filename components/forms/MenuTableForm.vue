@@ -44,6 +44,7 @@
                   :tags="menu.tags"
                   :url="menu.url"
                   :flat="!(menu.id === selectedMenuID)"
+                  :loaded="fetchedData"
                   class="mx-4 my-1"
                   @clickMenu="onClickMenu(menu)"
                 ></menu-card>
@@ -63,6 +64,7 @@
               :key="`menu-search-form-${fetchedData}`"
               :menus="menus"
               :tags="tags"
+              :loaded="fetchedData"
               class="pt-0 pb-2 px-2"
               @search="onClickMenuSearchFormSearch"
             ></menu-search-form>
@@ -83,6 +85,7 @@
                   :tags="menu.tags"
                   :url="menu.url"
                   :flat="!(menu.id === selectedMenuID)"
+                  :loaded="fetchedData"
                   class="mx-4 my-1"
                   @clickMenu="onClickMenu(menu)"
                 ></menu-card>

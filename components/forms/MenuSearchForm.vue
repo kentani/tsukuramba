@@ -6,7 +6,7 @@
           flat
           color="brown1"
         >
-          <v-card-text class="pa-0">
+          <v-card-text v-if="loaded" class="pa-0">
             <v-chip
               v-for="(tag, index) in tags"
               :key="`menu-search-form-tag${index}`"
@@ -22,6 +22,24 @@
               {{ tag.name }}
             </v-chip>
           </v-card-text>
+
+          <div v-else class="pa-0">
+            <v-card-text class="pa-0 d-flex">
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+            </v-card-text>
+
+            <v-card-text class="pa-0 d-flex">
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+              <v-skeleton-loader height="20" width="60" type="button" class="ma-1" />
+            </v-card-text>
+          </div>
         </v-card>
       </v-col>
 
@@ -70,6 +88,10 @@ export default {
     tags: {
       type: Array,
       default: [],
+    },
+    loaded: {
+      type: Boolean,
+      default: false,
     },
   },
   mounted() {
