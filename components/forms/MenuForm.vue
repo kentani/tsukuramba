@@ -53,44 +53,31 @@
               ></v-autocomplete>
             </v-col>
 
-            <v-col cols="8">
+            <v-col cols="12" class="pb-0">
               <v-text-field
                 v-model="form.reference"
                 label="参考サイト"
                 color="brown"
                 dense
                 hide-details
-                @change="onChangeName"
+                @change="onChangeReference"
               ></v-text-field>
             </v-col>
 
-            <v-col cols="2">
-              <v-btn
-                icon
-                color="brown"
-                :disabled="form.reference.length === 0"
-                @click="onClickReference"
-              >
-                <v-icon>mdi-open-in-new</v-icon>
-              </v-btn>
-            </v-col>
-
-            <v-col cols="2">
-              <v-btn
-                icon
-                color="brown"
-                :disabled="form.reference.length === 0"
-                @click="onClickReference2"
-              >
-                <v-icon>mdi-open-in-new</v-icon>
-              </v-btn>
-            </v-col>
-
-            <v-col cols="12" class="py-0">
-              <div class="text-caption brown--text">イメージ</div>
-            </v-col>
-
             <v-col cols="12">
+              <link-card
+                :title="form.ogp.title"
+                :description="form.ogp.description"
+                :url="form.ogp.image"
+                @openReference="onClickOpenReference"
+              ></link-card>
+            </v-col>
+
+            <v-col cols="12" class="pb-0">
+              <div class="text-caption brown--text">※表示イメージ</div>
+            </v-col>
+
+            <v-col cols="12" class="pt-1">
               <menu-card
                 :name="form.name || '料理名'"
                 :tags="tags.filter(t => form.tags.includes(t.name))"
@@ -142,9 +129,18 @@
 
 <script>
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import axios from 'axios'
+
+import MenuCard from '@/components/MenuCard.vue';
+import LinkCard from '@/components/LinkCard.vue';
+
 
 export default {
   name: 'MenuForm',
+  components: {
+    MenuCard: MenuCard,
+    LinkCard: LinkCard,
+  },
   data: () => ({
     overlay: false,
     progress: 0,
@@ -155,8 +151,18 @@ export default {
       image: '',
       url: '',
       reference: '',
+      ogp: {
+        title: '',
+        description: '',
+        image: '',
+      },
       tags: [],
       isEdit: false,
+    },
+    ogp: {
+      title: '',
+      description: '',
+      image: '',
     }
   }),
   props: {
@@ -206,6 +212,17 @@ export default {
         });
       });
     },
+    onChangeReference() {
+      const fetchOgpDataAPI = `${process.env.FETCH_OGP_API}?url=${this.form.reference}`;
+      axios
+        .get(fetchOgpDataAPI)
+        .then((res) => {
+          this.form.ogp = {...res.data};
+        })
+    },
+    onClickOpenReference() {
+      window.open(this.form.reference, '_blank');
+    },
     onClickCancelBtn() {
       if (!this.form.isEdit && this.form.url?.length > 0) {
         const storage = getStorage();
@@ -222,9 +239,6 @@ export default {
       this.close();
     },
     onClickReference() {
-      window.location.href = this.form.reference;
-    },
-    onClickReference2() {
       window.open(this.form.reference, '_blank');
     },
 
@@ -254,6 +268,11 @@ export default {
         url: '',
         reference: '',
         tags: [],
+        ogp: {
+          title: '',
+          description: '',
+          image: '',
+        },
         isEdit: false,
       }
     },

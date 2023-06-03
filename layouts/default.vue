@@ -1,5 +1,5 @@
 <template>
-  <v-app :style="{ background: '#EFEBE9' }">
+  <v-app :style="{ background: this.$vuetify.theme.themes.light.brown1 }">
     <v-app-bar
       app
       flat
@@ -62,7 +62,7 @@
           style="height: 100%;"
           @click="onClickBtn(index)"
         >
-          <span style="color: #795548;">{{ item.name }}</span>
+          <span class="brown--text">{{ item.name }}</span>
           <v-icon color="brown" class="mb-2">{{ item.icon }}</v-icon>
         </v-btn>
       </v-bottom-navigation>

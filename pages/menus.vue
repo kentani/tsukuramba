@@ -178,6 +178,7 @@ export default {
         imageName: form.imageName,
         url: form.url,
         reference: form.reference,
+        ogp: form.ogp,
         tags: form.tags.map(tagName => tags[tagName]),
         updatedAt: serverTimestamp(),
       }
@@ -199,6 +200,7 @@ export default {
         imageName: form.imageName,
         url: form.url,
         reference: form.reference,
+        ogp: form.ogp,
         tags: form.tags.map(tagName => tags[tagName]),
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),

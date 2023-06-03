@@ -452,7 +452,7 @@ ul li {
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin-bottom: 5px;
   line-height: 1.5;
-  background: #D7CCC8;
+  background: var(--v-brown2-base);
   vertical-align: middle;
   color: #505050;
   border-radius: 15px 0px 0px 15px;/*左側の角丸く*/
