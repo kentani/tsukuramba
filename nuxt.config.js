@@ -120,7 +120,6 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    defaultAssets: false,
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
@@ -146,6 +145,13 @@ export default {
           brown1: colors.brown.lighten5,
           brown2: colors.brown.lighten4,
         }
+      },
+      defaultAssets: {
+        font: true,
+        icons: 'md'
+      },
+      icons: {
+        iconfont: 'md'
       },
       options: {
         customProperties: true

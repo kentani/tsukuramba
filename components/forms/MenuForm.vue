@@ -81,7 +81,7 @@
               <menu-card
                 :name="form.name || '料理名'"
                 :tags="tags.filter(t => form.tags.includes(t.name))"
-                :url="form.url"
+                :url="form.url || form.ogp.image"
                 :loaded="loaded"
               ></menu-card>
             </v-col>
@@ -214,10 +214,13 @@ export default {
     },
     onChangeReference() {
       const fetchOgpDataAPI = `${process.env.FETCH_OGP_API}?url=${this.form.reference}`;
+      const invalidData = ['#N/A', '#VALUE!']
       axios
         .get(fetchOgpDataAPI)
         .then((res) => {
-          this.form.ogp = {...res.data};
+          if (!invalidData.includes(res.data.title)) {
+            this.form.ogp = {...res.data};
+          };
         })
     },
     onClickOpenReference() {
