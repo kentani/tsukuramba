@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card :loading="loading" flat>
     <v-row
       no-gutters
       align="center"
@@ -59,6 +59,10 @@ export default {
       type: String,
       default: '',
     },
+    loading: {
+      type: String,
+      default: '',
+    }
   },
   computed: {
   },

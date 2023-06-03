@@ -69,6 +69,7 @@
                 :title="form.ogp.title"
                 :description="form.ogp.description"
                 :url="form.ogp.image"
+                :loading="ogpLoading"
                 @openReference="onClickOpenReference"
               ></link-card>
             </v-col>
@@ -163,7 +164,8 @@ export default {
       title: '',
       description: '',
       image: '',
-    }
+    },
+    ogpLoading: null,
   }),
   props: {
     dialog: {
@@ -212,16 +214,22 @@ export default {
         });
       });
     },
-    onChangeReference() {
-      const fetchOgpDataAPI = `${process.env.FETCH_OGP_API}?url=${this.form.reference}`;
-      const invalidData = ['#N/A', '#VALUE!']
-      axios
-        .get(fetchOgpDataAPI)
-        .then((res) => {
-          if (!invalidData.includes(res.data.title)) {
-            this.form.ogp = {...res.data};
-          };
-        })
+    async onChangeReference() {
+      if(this.form.reference.length > 0) {
+        this.ogpLoading = 'brown';
+        const fetchOgpDataAPI = `${process.env.FETCH_OGP_API}?url=${this.form.reference}`;
+        const invalidData = ['#N/A', '#VALUE!'];
+        await axios
+          .get(fetchOgpDataAPI)
+          .then((res) => {
+            if (!invalidData.includes(res.data.title)) {
+              this.form.ogp = {...res.data};
+            };
+          });
+        this.ogpLoading = null;
+      } else {
+        this.resetOgp();
+      }
     },
     onClickOpenReference() {
       window.open(this.form.reference, '_blank');
@@ -278,6 +286,13 @@ export default {
         },
         isEdit: false,
       }
+    },
+    resetOgp() {
+      this.form.ogp = {
+        title: '',
+        description: '',
+        image: '',
+      };
     },
     delay(n){
       return new Promise(function(resolve) {
