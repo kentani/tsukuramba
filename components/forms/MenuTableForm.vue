@@ -42,7 +42,7 @@
                 <menu-card
                   :name="menu.name"
                   :tags="menu.tags"
-                  :url="menu.url"
+                  :url="menu.url || menu.ogp?.image"
                   :flat="!(menu.id === selectedMenuID)"
                   :loaded="fetchedData"
                   class="mx-4 my-1"
