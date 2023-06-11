@@ -1,11 +1,6 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
   "hosting": {
     "public": "dist",
-    "trailingSlash": false,
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -15,13 +10,11 @@
       {
         "source": "/menus",
         "destination": "/menus.html"
+      },
+      {
+        "source": "/analysis",
+        "destination": "/analysis.html"
       }
     ]
-  },
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "emulators": {
-    "singleProjectMode": true
   }
 }

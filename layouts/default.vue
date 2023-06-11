@@ -80,6 +80,7 @@ export default {
     bottomItems: [
       { name: '献立表', icon: 'mdi-silverware', to: '/' },
       { name: 'メニューリスト', icon: 'mdi-silverware-fork-knife', to: '/menus' },
+      { name: 'アナリシス', icon: 'mdi-google-analytics', to: '/analysis' },
     ]
   }),
   mounted() {
